@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Коэффициент корреляции</title>
+</head>
+<body>
+    <h4>472514</h4>
+    <button onclick="updateTitle()">Вычислить коэффициент</button>
+    <script>
+        function extractParams() {
+            let query = location.href.split('?')[1] || "";
+            let params = {};
+            query.split('&').forEach(pair => {
+                let parts = pair.split('=');
+                if (parts.length === 2) {
+                    let key = parts[0];
+                    let values = parts[1].split(',').map(Number);
+                    params[key] = values;
+                }
+            });
+            return params;
+        }
+
+        function pearsonCorrelation(a, b) {
+            if (a.length !== b.length || a.length === 0) return null;
+
+            let n = a.length;
+            let sumA = a.reduce((sum, val) => sum + val, 0);
+            let sumB = b.reduce((sum, val) => sum + val, 0);
+            let sumAB = a.map((val, i) => val * b[i]).reduce((sum, val) => sum + val, 0);
+            let sumA2 = a.map(val => val ** 2).reduce((sum, val) => sum + val, 0);
+            let sumB2 = b.map(val => val ** 2).reduce((sum, val) => sum + val, 0);
+
+            let numerator = n * sumAB - sumA * sumB;
+            let denominator = Math.sqrt((n * sumA2 - sumA ** 2) * (n * sumB2 - sumB ** 2));
+            
+            if (denominator === 0) return 1;
+            let result = numerator / denominator;
+            return Math.abs(result).toFixed(3).slice(0, 5);
+        }
+
+        function updateTitle() {
+            let params = extractParams();
+            if (params.A && params.B) {
+                let correlation = pearsonCorrelation(params.A, params.B);
+                document.title = correlation;
+            }
+        }
+    </script>
+</body>
+</html>
