@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Audiobook "Wilt by Tom Sharp"</title>
+</head>
+<body>
+    <h1>Wilt by Tom Sharp</h1>
+    <audio id="au" controls>
+        <source src="Emmanuel'.mp3" type="audio/mpeg"/>
+    </audio>
+    <button id="bt" onclick="downloadAndPlay()">Download and Play</button>
+
+    <script>
+        async function downloadAndPlay() {
+            let response = await fetch("Emmanuel'.mp3");
+            let blob = await response.blob();
+            let reader = new FileReader();
+
+            reader.onload = (e) => {
+                let audio = document.getElementById('au');
+                audio.src = e.target.result;
+                audio.play();
+            };
+
+            reader.readAsDataURL(blob);
+        }
+    </script>
+</body>
+</html>
