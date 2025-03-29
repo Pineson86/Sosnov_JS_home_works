@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простые числа</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function isPrime(num) {
+                if (num < 2) return false;
+                for (let i = 2; i * i <= num; i++) {
+                    if (num % i === 0) return false;
+                }
+                return true;
+            }
+            
+            function countPrimes(n) {
+                let count = 0;
+                for (let i = 2; i <= n; i++) {
+                    if (isPrime(i)) count++;
+                }
+                return count;
+            }
+            
+            let params = window.location.search;
+            if (params.startsWith("?")) {
+                let number = parseInt(params.slice(1), 10);
+                if (!isNaN(number) && number >= 2) {
+                    let primeCount = countPrimes(number);
+                    document.title = `Простых чисел: ${primeCount}`;
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <h4>472514</h4>
+</body>
+</html>
