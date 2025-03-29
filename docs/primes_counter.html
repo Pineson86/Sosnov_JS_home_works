@@ -1,41 +1,36 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Простые числа</title>
+    <title>Количество простых чисел</title>
 </head>
 <body>
-    <h4>472514</h4>
-    <button onclick="updateTitle()">Вычислить</button>
-    <script>
-        function extractNumber() {
-            let query = location.href.split('?')[1] || "";
-            return parseInt(query, 10);
+<h4>472514</h4>
+<script>
+    function isPrime(num) {
+        if (num <= 1) return false;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i === 0) return false;
         }
+        return true;
+    }
 
-        function isPrime(num) {
-            if (num < 2) return false;
-            for (let i = 2; i * i <= num; i++) {
-                if (num % i === 0) return false;
-            }
-            return true;
-        }
+    const params = window.location.href.split('?')[1];
+    const N = parseInt(params, 10);
 
-        function countPrimes(n) {
-            let count = 0;
-            for (let i = 2; i <= n; i++) {
-                if (isPrime(i)) count++;
-            }
-            return count;
-        }
+    if (!isNaN(N) && N >= 2) {
+        let primeCount = 0;
 
-        function updateTitle() {
-            let number = extractNumber();
-            if (!isNaN(number) && number >= 2) {
-                let primeCount = countPrimes(number);
-                document.title = primeCount;
+        // Считаем количество простых чисел от 2 до N включительно
+        for (let i = 2; i <= N; i++) {
+            if (isPrime(i)) {
+                primeCount++;
             }
         }
-    </script>
+
+        // Устанавливаем заголовок окна
+        document.title = primeCount.toString();
+    } else {
+        document.title = "Некорректное значение";
+    }
+</script>
 </body>
 </html>
