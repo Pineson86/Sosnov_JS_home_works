@@ -1,42 +1,41 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
     <title>Простые числа</title>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            function isPrime(num) {
-                if (num < 2) return false;
-                for (let i = 2; i * i <= num; i++) {
-                    if (num % i === 0) return false;
-                }
-                return true;
-            }
-            
-            function countPrimes(n) {
-                let count = 0;
-                for (let i = 2; i <= n; i++) {
-                    if (isPrime(i)) count++;
-                }
-                return count;
-            }
-            
-            function processPrimes() {
-                let params = window.location.search;
-                if (params.startsWith("?")) {
-                    let number = parseInt(params.slice(1), 10);
-                    if (!isNaN(number) && number >= 2) {
-                        let primeCount = countPrimes(number);
-                        document.title = `Простых чисел: ${primeCount}`;
-                    }
-                }
-            }
-        });
-    </script>
 </head>
 <body>
     <h4>472514</h4>
-    <button onclick="processPrimes()">Рассчитать</button>
+    <button onclick="updateTitle()">Вычислить</button>
+    <script>
+        function extractNumber() {
+            let query = location.href.split('?')[1] || "";
+            return parseInt(query, 10);
+        }
+
+        function isPrime(num) {
+            if (num < 2) return false;
+            for (let i = 2; i * i <= num; i++) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        function countPrimes(n) {
+            let count = 0;
+            for (let i = 2; i <= n; i++) {
+                if (isPrime(i)) count++;
+            }
+            return count;
+        }
+
+        function updateTitle() {
+            let number = extractNumber();
+            if (!isNaN(number) && number >= 2) {
+                let primeCount = countPrimes(number);
+                document.title = primeCount;
+            }
+        }
+    </script>
 </body>
 </html>
